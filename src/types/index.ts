@@ -10,6 +10,8 @@ export interface IApi {
 
 export type TPayment = "card" | "cash";
 
+export type BuyerValidationErrors = Partial<Record<keyof IBuyer, string>>;
+
 export interface IProduct {
   id: string;
   description: string;
@@ -21,16 +23,9 @@ export interface IProduct {
 
 export interface IBuyer {
   payment: TPayment | null;
-  email: string | null;
-  phone: string | null;
-  address: string | null;
-}
-
-export interface ValidationErrors {
-  payment?: string;
-  address?: string;
-  phone?: string;
-  email?: string;
+  email: string;
+  phone: string;
+  address: string;
 }
 
 export interface IProductsResponse {
@@ -39,13 +34,12 @@ export interface IProductsResponse {
 }
 
 export interface IOrder {
-  products: IProduct[];
-  buyer: {
-    payment: TPayment;
-    address: string;
-    phone: string;
-    email: string;
-  };
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+  total: number;
+  items: IProduct[];
 }
 
 export interface IOrderResponse {

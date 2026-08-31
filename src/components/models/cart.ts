@@ -6,30 +6,34 @@ export class Cart {
 
   constructor(private events: IEvents) {}
 
+  private emitCartUpdate(): void {
+    this.events.emit('cart-updated', {
+      items: this.items,
+      total: this.getTotalPrice(),
+      count: this.getCount(),
+    });
+  }
+
   public getItems(): IProduct[] {
     return [...this.items];
   }
 
   public addItem(item: IProduct): void {
     this.items.push(item);
-    this.events.emit('cart-item-added', item);
-    this.events.emit('cart-updated', { items: this.items, total: this.getTotalPrice(), count: this.getCount() });
+    this.emitCartUpdate();
   }
 
   public removeItem(item: IProduct): void {
     const index = this.items.findIndex((i) => i.id === item.id);
     if (index === -1) return;
 
-    const removed = this.items.splice(index, 1)[0];
-    this.events.emit('cart-item-removed', removed);
-    this.events.emit('cart-updated', { items: this.items, total: this.getTotalPrice(), count: this.getCount() });
+    this.items.splice(index, 1);
+    this.emitCartUpdate();
   }
 
   public clear(): void {
-    const clearedItems = [...this.items];
     this.items = [];
-    this.events.emit('cart-cleared', clearedItems);
-    this.events.emit('cart-updated', { items: [], total: 0, count: 0 });
+    this.emitCartUpdate();
   }
 
   public getTotalPrice(): number {

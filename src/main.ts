@@ -36,7 +36,9 @@ async function main() {
   console.log(`getProducts() вернул следующее кол-во товаров: ${allProducts.length}.`);
 
   const testId = '854cef69-976d-4c2a-a18c-2aa45046c390';
+  const testId2 = '412bcf81-7e75-4e70-bdb9-d3c73c9803b7';
   const productById = productsModel.getProductById(testId);
+  const productById2 = productsModel.getProductById(testId);
 
   if (!productById) {
     console.error(`❌ Товар с ID ${testId} НЕ найден в локальном каталоге!`);
@@ -52,10 +54,26 @@ async function main() {
     }
 
     cartModel.addItem(productById);
-    console.log('Вызван cartModel.addItem(). Товар добавлен в корзину.');
+    console.log('  Вызван cartModel.addItem(). Товар добавлен в корзину.');
 
-    const cartItems = cartModel.getItems();
+    let cartItems = cartModel.getItems();
     console.log(`🛒 getItems() кол-во товаров в корзине: ${cartItems.length}.`);
+    
+    if (productById2) {
+      cartModel.addItem(productById2);
+      console.log('  Вызван cartModel.addItem() для другого товара. Товар добавлен в корзину.');
+
+      let cartItems = cartModel.getItems();
+      console.log(`🛒 getItems() кол-во товаров в корзине: ${cartItems.length}.`);
+
+      cartModel.removeItem(productById2);
+      console.log(`  Вызван cartModel.removeItem(). Товар удалён из корзины.`);
+
+      cartItems = cartModel.getItems();
+      console.log(`🛒 getItems() кол-во товаров в корзине: ${cartItems.length}.`);
+
+    }
+    
     console.log('getTotalPrice():', cartModel.getTotalPrice());
   }
 
