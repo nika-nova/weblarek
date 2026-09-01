@@ -39,7 +39,7 @@ export interface IOrder {
   phone: string;
   address: string;
   total: number;
-  items: IProduct[];
+  items: string[];
 }
 
 export interface IOrderResponse {

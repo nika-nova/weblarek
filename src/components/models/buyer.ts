@@ -37,13 +37,10 @@ export class Buyer {
     }
 
     public clear(): void {
-        const currentData = this.get();
         this.payment = null;
         this.address = "";
         this.phone = "";
         this.email = "";
-
-        this.events.emit("buyer-cleared", currentData);
     }
 
     public validate(): BuyerValidationErrors {
