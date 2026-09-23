@@ -7,7 +7,7 @@ export class Cart {
   constructor(private events: IEvents) {}
 
   private emitCartUpdate(): void {
-    this.events.emit('cart-updated', {
+    this.events.emit('cart:changed', {
       items: this.items,
       total: this.getTotalPrice(),
       count: this.getCount(),

@@ -195,3 +195,198 @@ Presenter - презентер содержит основную логику п
 Методы:  
 `getProducts(): Promise<IProductsResponse>` - получает с сервера массив товаров каталога;  
 `async createOrder(order: IOrder): Promise<IOrderResponse>` - отправляет на сервер данные о заказе (покупатель + выбранные товары) и возвращает подтверждение покупки
+
+### Классы слоя View
+
+#### Класс Header
+Отображение корзины со счётчиком в шапке
+
+Свойства:
+`counterElement:` счётчик  
+`basketButton:` корзина  
+
+Методы:
+`set counter(value: number)` устанавливает значение счётчика
+
+События:
+`basket:open` генерируется при нажатии на корзину
+
+#### Класс Modal
+Шаблон модального окна с контейнером для контекнта и кнопкой закрытия
+
+Свойства:
+`contentElement:` содержание модального окна  
+`closeButton:` кнопка закрытия (крестик)  
+
+Методы:
+`set content(value: string | HTMLElement)` вставка контента
+`open()` открытие модального окна
+`close()` закрытие модального окна
+
+События:
+-
+
+#### Класс CatalogView
+Представление каталога карточек
+
+Свойства:
+`catalog` контейнер каталога  
+
+Методы:
+`set catalog(value: HTMLElement[])` для рендера каталога карточек
+
+События:
+-
+
+#### Абстрактный класс CardParent
+Общие параметры 3 видов представлений с карточками (ниже)
+
+Свойства:
+`titleElement:` название товара  
+`priceElement:` цена товара  
+
+Методы:
+`set title(value: string)`  
+`set price(value: number | null)`  
+
+События:
+-
+
+#### Класс CardCatalog
+Представление карточки в каталоге
+
+Свойства:
+`imageElement:` изображение товара  
+`categoryElement:` категория товара  
+
+Методы:
+`set category(value: string)`  
+`set image(value: string)`  
+
+События:
+ё `catalog:cardClick` - передаётся в презентере через onClick
+
+#### Класс CardPreview
+Представление подробной карточки в модальном окне
+
+Свойства:
+`categoryElement:` категория товара
+`imageElement:` изображение товара
+`descriptionElement:` описание товара
+`actionButton:` кнопка добавить в корзину/удалить товар
+
+Методы:
+`set category(value: string)`  
+`set image(value: string)`  
+`set description(value: string)`  
+`set buttonText(value: string)` задаёт текст кнопки покупки/удаления из корзины  
+`set buttonDisabled(value: boolean)` делает кнопку неактивной, если у товара нет цены  
+
+События:
+ё `preview:click` - передаётся в презентере через onClick
+
+#### Класс CardCart
+Представление карточки в корзине
+
+Свойства:
+`indexElement:` номер товара в корзине  
+`deleteButton:` кнопка удаления товара из корзины  
+
+Методы:
+`set index(value: number)`  
+
+События:
+ё `cart:itemDeleteClick` - передаётся в презентере через onDelete
+
+#### Класс CartView
+Представление корзины
+
+Свойства:
+`listElement:` список товаров  
+`totalElement:` общая стоимость покупок  
+`placeOrderButton:` кнопка оформления заказа  
+
+Методы:
+`set products(value: HTMLElement[])` заполняет список товаров и деактивирует кнопку оформления заказа, если список пустой  
+`set total(value: string)` задаёт общую стоимость  
+`set placeOrderDisabled(value: boolean)` деактивирует кнопку оформления заказа
+
+События:
+`basket:makeOrder` генерируется при нажатии на кнопку оформления заказа
+
+#### Абстрактный класс FormParent
+Общие параметры 2 видов представлений формы (ниже)
+
+Свойства:
+`formElement:` контейнер формы  
+`submitButton:` кнопка подтверждения  
+`errorELement:` элемент для отображения ошибок заполнения формы  
+
+Методы:
+`set valid(value: boolean)` активирует/дезактивирует кнопку подтверждения заказа  
+`set error(value: string)` вставляет описание ошибки в элемент errorElement  
+
+События:
+`${(this.container as HTMLFormElement).name}:submit` шаблон событий подтверждения форм (payment:submit / order:submit / contacts:submit)  
+`${(this.container as HTMLFormElement).name}:change` шаблон событий изменения инпутов форм (payment:change / order:change / contacts:change)  
+
+#### Класс FormPayment
+Форма для заполнения способа оплаты и адреса доставки товара
+
+Свойства:
+`cardButton:` кнопка оплаты картой  
+`cashButton:` кнопка оплаты наличными  
+`addressInput:` поле ввода адреса доставки  
+
+Методы:
+`set payment(value: IFormPayment["payment"])` активация/деактивация кнопок способа оплаты (карта / наличные)  
+`set address(value: IFormPayment["address"])` заполнение адреса  
+
+События:
+`'payment:change', {payment: 'card/cash'}` уведомление об изменении способа оплаты  
+
+#### Класс FormContacts
+Форма для заполнения почты и телефона
+
+Свойства:
+`emailInput:` поле ввода электронной почты  
+`phoneInput:` поле ввода номера телефона  
+
+Методы:
+`set email(value: IFormContacts['email'])`  
+`set phone(value: IFormContacts['phone'])`  
+
+События:
+-
+
+#### Класс SuccessView
+Модальное окно, уведомляющее об успешном оформлении заказа и его стоимости
+
+Свойства:
+`totalElement:` общая стоимость заказа
+`closeButton:` кнопка вида "ок/продолжить/закрыть"
+
+Методы:
+`set total(value: string)` называет общую стоимость заказа, котоаря была списана у пользователя
+
+События:
+`modal:close` уведомление о нажатии кнопки "ок/продолжить/закрыть"  
+
+##### Все имеющиеся события
+#### В Моделях данных:
+`catalog:updated` изменение каталога товаров  
+`catalog:selected` изменение выбранного для просмотра товара  
+`cart:changed` изменение содержимого корзины  
+`buyer:changed` изменение данных покупателя  
+
+#### В Представлениях:  
+`catalog:cardClick` выбор карточки для просмотра  
+`preview:click` нажатие кнопки покупки товара  
+`preview:click` нажатие кнопки удаления товара из корзины (в карточке товара)  
+`cart:itemDeleteClick` нажатие кнопки удаления товара из корзины (в корзине)  
+`cart:open` нажатие кнопки открытия корзины  
+`cart:makeOrder` нажатие кнопки оформления заказа  
+`payment:submit`, `order:submit` нажатие кнопки перехода ко второй форме оформления заказа  
+`contacts:submit` нажатие кнопки оплаты/завершения оформления заказа  
+`payment:change`, `order:change`, `contacts:change` изменение данных в формах  
+`modal:close` - закрытие модального окна  

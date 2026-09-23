@@ -46,3 +46,18 @@ export interface IOrderResponse {
   id: string;
   total: number;
 }
+
+export interface ICard {
+  title: IProduct["title"];
+  price: IProduct["price"];
+}
+
+export interface ICardActions {
+    onClick?: () => void;
+    onDelete?: () => void;
+}
+
+export interface IForm {
+  valid: boolean;
+  error: string;
+}

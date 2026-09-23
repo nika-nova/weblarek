@@ -9,17 +9,20 @@ export class Products {
 
   public setProducts(products: IProduct[]): void {
     this.products = [...products];
-    this.events.emit("products-updated", products);
+    this.events.emit("catalog:updated", products);
   }
+  
   public getProducts(): IProduct[] {
     return [...this.products];
   }
+
   public getProductById(id: string): IProduct | undefined {
     return this.products.find((product) => product.id === id);
   }
+
   public setSelectedProduct(product: IProduct): void {
     this.selectedProduct = product;
-    this.events.emit('product-selected', product);
+    this.events.emit('catalog:selected', product);
   }
 
   public getSelectedProduct(): IProduct | null {
