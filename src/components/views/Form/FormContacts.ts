@@ -4,8 +4,8 @@ import { IEvents } from "../../../components/base/Events";
 import { ensureElement } from "../../../utils/utils";
 
 interface IFormContacts extends IForm {
-  email: IBuyer['email'];
-  phone: IBuyer['phone'];
+  email: string;
+  phone: string;
 }
 
 export class FormContacts extends FormParent<IFormContacts> {

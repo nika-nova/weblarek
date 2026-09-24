@@ -6,8 +6,8 @@ import { ensureElement } from "../../../utils/utils";
 type CategoryKey = keyof typeof categoryMap;
 
 interface ICardCatalog extends ICard {
-  image: IProduct['image'];
-  category: IProduct['image'];
+  image: { src: string; alt?: string };
+  category: string;
 }
 
 export class CardCatalog extends CardParent<ICardCatalog> {
@@ -36,7 +36,7 @@ export class CardCatalog extends CardParent<ICardCatalog> {
     }
   }
 
-  set image(value: string) {
-    this.setImage(this.imageElement, value, this.title);
+  set image(value: {src: string, alt: string}) {
+    this.setImage(this.imageElement, value.src, value.alt ?? '');
   }
 }

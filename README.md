@@ -260,7 +260,7 @@ Presenter - презентер содержит основную логику п
 
 Методы:
 `set category(value: string)`  
-`set image(value: string)`  
+`set image(value: {src: string, alt: string})`  
 
 События:
 `catalog:cardClick` - передаётся в презентере через onClick

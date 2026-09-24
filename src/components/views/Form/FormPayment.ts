@@ -5,7 +5,7 @@ import { ensureElement } from "../../../utils/utils";
 
 interface IFormPayment extends IForm {
   payment: IBuyer['payment'];
-  address: IBuyer['address'];
+  address: string;
 }
 
 export class FormPayment extends FormParent<IFormPayment> {

@@ -6,9 +6,9 @@ import { categoryMap } from "../../../utils/constants";
 type CategoryKey = keyof typeof categoryMap;
 
 interface ICardPreview extends ICard {
-  category: IProduct['category'];
+  category: string;
   image: IProduct['image'];
-  description: IProduct['description'];
+  description: string;
   buttonText?: string;
   buttonDisabled?: boolean;
 }

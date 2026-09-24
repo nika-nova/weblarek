@@ -125,7 +125,10 @@ function renderCatalog(products: IProduct[]): void {
     return card.render({
       title: product.title,
       price: product.price,
-      image: product.image,
+      image: {
+        src: product.image,
+        alt: product.title,
+      },
       category: product.category,
     });
   });
@@ -266,10 +269,6 @@ events.on('buyer:changed', () => {
 });
 
 events.on('order:submit', () => {
-  const errors = buyerModel.validate();
-  if (errors.payment || errors.address) return;
-
-
   modal.render({ content: formContacts.render() });
   modal.open();
 });
@@ -279,9 +278,6 @@ events.on('contacts:change', (data: Partial<IBuyer>) => {
 });
 
 events.on('contacts:submit', () => {
-  const errors = buyerModel.validate();
-  if (errors.email || errors.phone) return;
-  
   submitOrder(buyerModel.get());
 });
 
